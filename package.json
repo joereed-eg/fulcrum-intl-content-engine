@@ -1,0 +1,28 @@
+{
+  "name": "fulcrum-intl-content-engine",
+  "version": "1.0.0",
+  "description": "Autonomous content publishing pipeline for Fulcrum International — Bearing Framework cluster content",
+  "type": "module",
+  "scripts": {
+    "pipeline": "node pipeline.js",
+    "pipeline:dry": "node pipeline.js --dry-run",
+    "monitor": "node monitor.js",
+    "stage:sheet": "node stages/01-sheet-reader.js",
+    "stage:research": "node stages/02-researcher.js",
+    "stage:write": "node stages/03-writer.js",
+    "stage:qc": "node stages/04-qc.js",
+    "stage:image": "node stages/05-image.js",
+    "stage:sanity": "node stages/06-sanity.js",
+    "stage:index": "node stages/06b-indexing.js",
+    "stage:seo": "node stages/08-seo-monitor.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.79.0",
+    "@portabletext/markdown": "^1.1.4",
+    "@portabletext/toolkit": "^5.0.2",
+    "@sanity/client": "^7.17.0",
+    "google-auth-library": "^10.6.2",
+    "googleapis": "^144.0.0",
+    "nodemailer": "^8.0.3"
+  }
+}

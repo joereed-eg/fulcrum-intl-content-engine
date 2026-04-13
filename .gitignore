@@ -1,0 +1,8 @@
+node_modules/
+runs/
+config/credentials.json
+config/google-service-account.json
+config/linkedin-token.json
+.tmp-article.md
+.env
+.env.local

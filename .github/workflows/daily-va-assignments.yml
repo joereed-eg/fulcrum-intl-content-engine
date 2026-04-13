@@ -1,0 +1,27 @@
+name: Daily VA Assignments
+
+on:
+  schedule:
+    # 7:00 AM ET (12:00 UTC) Monday-Friday
+    - cron: '0 12 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  post-assignments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Post daily assignment to Slack
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_CHANNEL_ID: C0AN8026A2V
+        run: node daily-assignments.js
