@@ -30,7 +30,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `SEO monitor failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`🚨 SEO monitor failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`🚨 SEO monitor failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   // Content refresh check — flag declining articles
@@ -40,7 +40,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `Content refresh check failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`🚨 Content refresh check failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`🚨 Content refresh check failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   // ICP trend radar — rotating focus across audience segments
@@ -50,7 +50,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `Trend radar failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`🚨 Trend radar failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`🚨 Trend radar failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   // Topic cluster health analysis
@@ -60,7 +60,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `Cluster planner failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`🚨 Cluster planner failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`🚨 Cluster planner failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   // Quick wins detection + post-publish checks
@@ -70,7 +70,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `Post-publish check failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`🚨 Post-publish check failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`🚨 Post-publish check failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   // Broken link detection
@@ -96,7 +96,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `Competitor watch failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`🚨 Competitor watch failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`🚨 Competitor watch failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   // Broken link prospecting — find replacement opportunities on competitor/industry sites
@@ -106,7 +106,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `Broken link prospector failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`Broken link prospector failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`Broken link prospector failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   // Reciprocal link tracking — flag domains we link to heavily for outreach
@@ -116,7 +116,7 @@ async function run() {
   } catch (err) {
     logger.error('monitor', `Reciprocal tracker failed: ${err.message}`);
     const runUrl = getRunUrl();
-    await sendSlackAlert(`Reciprocal tracker failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`);
+    await sendSlackAlert(`Reciprocal tracker failed: ${err.message}${runUrl ? `\nLogs: ${runUrl}` : ''}`, { severity: 'status' });
   }
 
   logger.save();

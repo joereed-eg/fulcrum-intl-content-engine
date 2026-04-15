@@ -371,7 +371,7 @@ async function run() {
       const { sendSlackAlert } = await import('../utils/slack.js');
       const links = results.map(r => `• ${r.title}\n  ${r.docUrl}`).join('\n');
       const text = `*Medium Cross-Post Docs Ready* (${results.length} article${results.length > 1 ? 's' : ''})\n\nNew docs in <https://drive.google.com/drive/folders/${DRIVE_FOLDER_ID}|Medium Cross-Posts folder>:\n${links}`;
-      await sendSlackAlert(text);
+      await sendSlackAlert(text, { severity: 'action' });
       console.log('Slack notification sent.');
     } catch (err) {
       console.error('Slack notification failed:', err.message);

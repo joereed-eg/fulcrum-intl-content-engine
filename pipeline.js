@@ -135,7 +135,7 @@ async function processArticle(job) {
         const retryHuman = await humanizerGate(job, retryText);
         if (!retryHuman.passed) {
           await setSheetStatus(job, 'Needs Manual Review');
-          await sendSlackAlert(`*Humanizer gate failed after retry* for "${job.title}"\nScore: ${retryHuman.score || 'n/a'}\nConstraints: ${constraintNote}\n\nArticle needs manual review before publishing.`);
+          await sendSlackAlert(`*Humanizer gate failed after retry* for "${job.title}"\nScore: ${retryHuman.score || 'n/a'}\nConstraints: ${constraintNote}\n\nArticle needs manual review before publishing.`, { severity: "action" });
           logger.error('pipeline', `Humanizer failed after retry for "${job.title}". Queued for manual review.`);
           return { success: false, title: job.title, reason: `Humanizer failed after retry (score: ${retryHuman.score})` };
         }
@@ -223,7 +223,8 @@ async function run() {
         `Stage: [${stage}]\n` +
         `Error: ${message}\n` +
         `Row: ${job.rowIndex} (set to "Error")\n` +
-        `Logs: ${runUrl}`
+        `Logs: ${runUrl}`,
+        { severity: 'status' }
       );
 
       results.push({ success: false, title: job.title, reason: message });

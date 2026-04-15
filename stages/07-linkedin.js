@@ -21,7 +21,7 @@ export default async function linkedinPublisher(job, article, publishedUrl) {
       const { sendSlackAlert } = await import('../utils/slack.js');
       await sendSlackAlert(
         '⚠️ LinkedIn access token has EXPIRED. Syndication is disabled until the token is refreshed. Generate a new token and update the LINKEDIN_ACCESS_TOKEN secret.',
-        { mention: true }
+        { mention: true, severity: 'action' }
       );
       return { posted: false, reason: 'token-expired' };
     }
