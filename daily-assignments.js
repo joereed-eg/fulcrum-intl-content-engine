@@ -323,6 +323,14 @@ async function run() {
     return;
   }
 
+  // Severity gate: daily VA assignments are status-level. Silenced when
+  // SLACK_NOTIFY_LEVEL=error (default for Joe). Set to 'status' to re-enable.
+  const level = (process.env.SLACK_NOTIFY_LEVEL || 'action').toLowerCase();
+  if (level === 'error' || level === 'action') {
+    console.log('[daily-assignments] Skipped Slack post — SLACK_NOTIFY_LEVEL=' + level);
+    return;
+  }
+
   const res = await fetch('https://slack.com/api/chat.postMessage', {
     method: 'POST',
     headers: { Authorization: `Bearer ${BOT_TOKEN}`, 'Content-Type': 'application/json' },

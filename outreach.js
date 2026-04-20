@@ -18,7 +18,7 @@ async function runStage(name, fn) {
     return result;
   } catch (err) {
     logger.error('outreach', `${name} failed: ${err.message}`);
-    await sendSlackAlert(`${name} failed: ${err.message}`, { severity: 'status' });
+    await sendSlackAlert(`${name} failed: ${err.message}`, { severity: 'error' });
     return null;
   }
 }
