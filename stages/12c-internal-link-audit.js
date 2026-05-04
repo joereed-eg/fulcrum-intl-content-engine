@@ -22,7 +22,7 @@ export default async function internalLinkAudit() {
 
   // Fetch all published articles/resources
   const articles = await client.fetch(
-    `*[_type == "resource" && defined(body) && !(_id in path("drafts.**"))]{
+    `*[_type == "post" && defined(body) && !(_id in path("drafts.**"))]{
       _id, title, "slug": slug.current, body, _createdAt, _updatedAt
     }`
   );

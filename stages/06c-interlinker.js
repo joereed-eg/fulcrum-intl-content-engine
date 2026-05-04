@@ -133,7 +133,7 @@ export default async function interlinker(job, publishedDoc) {
 
   // Fetch all existing published resources except the new one — include cluster + tags for smart linking
   const existing = await client.fetch(
-    `*[_type == "resource" && slug.current != $slug] { _id, title, "slug": slug.current, body, cluster, tags }`,
+    `*[_type == "post" && slug.current != $slug] { _id, title, "slug": slug.current, body, cluster, tags }`,
     { slug: newSlug }
   );
 
@@ -190,7 +190,7 @@ export default async function interlinker(job, publishedDoc) {
 
   // Also: add links FROM the new article TO existing articles
   const newDoc = await client.fetch(
-    `*[_type == "resource" && slug.current == $slug][0] { _id, body }`,
+    `*[_type == "post" && slug.current == $slug][0] { _id, body }`,
     { slug: newSlug }
   );
 
@@ -235,7 +235,7 @@ export default async function interlinker(job, publishedDoc) {
   if (pillarPages.length > 0 && newDoc?.body) {
     // Re-fetch the new doc since it may have been updated with reverse links above
     const freshDoc = await client.fetch(
-      `*[_type == "resource" && slug.current == $slug][0] { _id, body }`,
+      `*[_type == "post" && slug.current == $slug][0] { _id, body }`,
       { slug: newSlug }
     );
 
