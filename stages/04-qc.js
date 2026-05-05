@@ -9,7 +9,7 @@ import writer from './03-writer.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const STAGE = 'qc';
-const MAX_RETRIES = 4;
+const MAX_RETRIES = 2;
 
 function getBrandVoice() {
   return readFileSync(join(__dirname, '..', 'config', 'brand-voice.md'), 'utf-8');
@@ -39,12 +39,14 @@ async function runQcCheck(job, article) {
       }
       return '';
     })
-    .join('\n\n');
+    .join('
+
+');
 
   // Pre-count metrics for QC
   const allPlainText = article.body.filter(b => b._type === 'block').map(b => (b.children || []).map(c => c.text || '').join('')).join(' ');
   const wordCount = allPlainText.split(/\s+/).filter(w => w).length;
-  const kwRegex = new RegExp(job.primaryKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  const kwRegex = new RegExp(job.primaryKeyword.replace(/[.*+?^${}()|[\]\]/g, '\$&'), 'gi');
   const keywordCount = (allPlainText.match(kwRegex) || []).length;
   const allLinks = article.body.flatMap(b => (b.markDefs || []).filter(m => m._type === 'link').map(m => m.href));
   const internalLinks = allLinks.filter(l => l.includes('fulcruminternational.org'));
@@ -159,7 +161,10 @@ export default async function qc(job, article, research, serpAnalysis = null) {
 
     logger.error(STAGE, `QC failed after ${retries} retries. Score: ${result.score}`);
     await sendSlackAlert(
-      `Content pipeline QC failure for "${job.title}"\nScore: ${result.score}/12\nIssues: ${(result.issues || []).join(', ')}\nRow ${job.rowIndex} set to "Needs Review"`
+      `Content pipeline QC failure for "${job.title}"
+Score: ${result.score}/12
+Issues: ${(result.issues || []).join(', ')}
+Row ${job.rowIndex} set to "Needs Review"`
     );
     return { pass: false, article: currentArticle, score: result.score, issues: result.issues };
   }
