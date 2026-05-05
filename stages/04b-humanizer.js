@@ -13,10 +13,11 @@ import { writeFileSync, unlinkSync } from 'fs';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import logger from '../utils/logger.js';
+import { sendSlackAlert } from '../utils/slack.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const HUMANIZER_PATH = join(process.env.HOME || '/Users/joereed', 'humanizer');
-const BRAND = 'fulcrum-intl';
+const BRAND = 'fulcrum-international';
 
 export default async function humanizerGate(job, articleBody) {
   logger.info('humanizer', `Auditing: "${job.title}"`);
@@ -82,7 +83,11 @@ export default async function humanizerGate(job, articleBody) {
 
     // Extract humanness score from AI audit
     const scoreMatch = fullResult.match(/HUMANNESS SCORE:\s*(\d+)/i);
-    const score = scoreMatch ? parseInt(scoreMatch[1]) : 0;
+    if (!scoreMatch) {
+      logger.warn('humanizer', 'AI audit produced no humanness score (ANTHROPIC_API_KEY may be missing on this runner). Passing with warning.');
+      return { passed: true, score: null, warnings: warningCount, note: 'AI audit skipped — no score produced (check ANTHROPIC_API_KEY secret)' };
+    }
+    const score = parseInt(scoreMatch[1]);
 
     logger.info('humanizer', `Humanness score: ${score}/10`);
 
@@ -106,13 +111,32 @@ export default async function humanizerGate(job, articleBody) {
     };
 
   } catch (err) {
-    // If humanizer crashes, log but don't block (fail open with warning)
-    logger.error('humanizer', `Humanizer error: ${err.message}`);
+    // execSync throws when subprocess exits with non-zero code.
+    // For the --score-only phase, exit code 1 means rule errors were found — that is
+    // expected behavior, not a crash. Recover the stdout and return a proper failure.
+    const stdout = (err.stdout || '').toString();
+    if (stdout.includes('❌') || (err.status === 1 && stdout.length > 50)) {
+      const errorCount = (stdout.match(/❌/g) || []).length;
+      const warningCount = (stdout.match(/⚠️/g) || []).length;
+      logger.warn('humanizer', `Rule-based gate failed: ${errorCount} errors found.`);
+      return {
+        passed: false,
+        phase: 'rules',
+        errors: errorCount,
+        warnings: warningCount,
+        details: stdout,
+        constraints: extractConstraints(stdout),
+      };
+    }
+
+    // Real crash (ENOENT, timeout, unexpected exception, etc.)
+    logger.error('humanizer', `Humanizer crashed: ${err.message}`);
+    await sendSlackAlert(`⚠️ Humanizer crashed for "${job.title}": ${err.message}`, { severity: 'error' });
     return {
       passed: true,
       score: null,
       warnings: 1,
-      note: 'Humanizer errored — article passed through with manual review flag',
+      note: 'Humanizer crashed — passed through with manual review flag',
     };
   } finally {
     try { unlinkSync(tmpFile); } catch { /* ignore cleanup errors */ }

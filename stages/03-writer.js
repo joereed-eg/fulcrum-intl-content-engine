@@ -253,7 +253,9 @@ CTAs (BOTH required):
 - Primary (mid-article ~40% mark): "${job.ctaPrimary || 'See what The Fulcrum Approach looks like for your organization'}" — link to https://www.fulcruminternational.org/approach?utm_source=blog&utm_medium=cta&utm_content=mid-article&utm_campaign=${slug}
 - Secondary (end of article): "${job.ctaSecondary || 'Start with a Bearing Diagnostic'}" — link to https://www.fulcruminternational.org/diagnostic?utm_source=blog&utm_medium=cta&utm_content=end-article&utm_campaign=${slug}
 
-CHECKLIST before output (verify each):
+CHECKLIST before output (verify each — these are hard gates, not suggestions):
+
+STRUCTURAL (fail = article is rejected):
 □ Word count meets target (${job.wordCountTarget}+)
 □ Primary keyword appears 5 to 6 times
 □ Mid-article CTA present
@@ -266,6 +268,16 @@ CHECKLIST before output (verify each):
 □ No em dashes anywhere
 □ No banned phrases
 □ The mission-driven leader is the hero in every section
+
+HUMANIZER (fail = article is sent back for rewrite — check these LAST, before outputting):
+□ Opening paragraph starts with a concrete scenario, named leader problem, or a stat — no throat-clearing ("In today's", "When it comes to", "It's important to note")
+□ Every H2 section opens with a direct factual answer statement (1-2 sentences) — NOT a question, NOT a transition phrase, NOT a vague generality. This is what Google AI Overviews and Perplexity extract as citations.
+□ At least 12% of sentences contain "you" or "your" — count them if unsure
+□ Contractions appear naturally throughout (don't, can't, you'll, it's, we've) — if a sentence sounds stiff when read aloud, add a contraction
+□ Paragraph lengths are VARIED: mix 1-2 sentence punchy paragraphs with 3-5 sentence explanatory ones — no 5 paragraphs in a row that are all 3 sentences
+□ Zero banned words present: robust, leverage, synergy, stakeholder, optimize, streamline, best-in-class, revolutionary, game-changing, cutting-edge, holistic, paradigm, ecosystem, scalable, actionable, impactful, empower, utilize, facilitate, innovative, solutions, comprehensive, seamless, dynamic, proactive
+□ Zero transition starters: sentences do NOT begin with "However,", "Moreover,", "Furthermore,", "Additionally,", "In conclusion," — delete the transition word and start with the actual point
+□ Zero hedging language: "is" not "can be", "helps" not "may help", "requires" not "might require" — take a position
 
 Output ONLY a JSON object:
 {
