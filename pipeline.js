@@ -148,6 +148,7 @@ async function processArticle(job) {
     }
   } catch (humanErr) {
     logger.warn('pipeline', `Humanizer gate crashed: ${humanErr.message}. Continuing to publish.`);
+    await sendSlackAlert(`⚠️ Humanizer crashed for "${job.title}": ${humanErr.message}`, { severity: 'error' });
     humanResult = { passed: true, score: null, note: 'Humanizer crashed — skipped' };
   }
 
