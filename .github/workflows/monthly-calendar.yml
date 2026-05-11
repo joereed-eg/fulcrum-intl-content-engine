@@ -1,10 +1,9 @@
 name: Monthly Content Calendar Generator
 
 on:
-  # schedule disabled
-  # schedule:
+  schedule:
     # 1st of every month at 8:00 AM UTC
-  # - cron: '0 8 1 * *'
+    - cron: '0 8 1 * *'
   workflow_dispatch:
 
 concurrency:

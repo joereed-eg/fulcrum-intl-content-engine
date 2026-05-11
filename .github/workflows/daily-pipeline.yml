@@ -1,9 +1,8 @@
 name: Daily Content Pipeline
 
 on:
-  # schedule disabled -- too noisy
-  # schedule:
-  #   - cron: '0 7 * * 1-5'
+  schedule:
+    - cron: '0 7 * * 1-5'
   workflow_dispatch: # Allow manual trigger from GitHub UI
 
 concurrency:

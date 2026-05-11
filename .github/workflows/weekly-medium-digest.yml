@@ -1,10 +1,9 @@
 name: Weekly Medium Digest
 
 on:
-  # schedule disabled
-  # schedule:
+  schedule:
     # Monday 9:00 AM UTC (5 AM ET)
-  # - cron: '0 6 * * 1'
+    - cron: '0 6 * * 1'
   workflow_dispatch: # Allow manual trigger
 
 jobs:

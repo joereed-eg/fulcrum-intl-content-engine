@@ -1,9 +1,8 @@
 name: Daily VA Assignments
 
 on:
-  # schedule disabled -- too noisy
-  # schedule:
-  #   - cron: '0 12 * * 1-5'
+  schedule:
+    - cron: '0 12 * * 1-5'
   workflow_dispatch:
 
 jobs:

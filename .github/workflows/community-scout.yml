@@ -1,10 +1,9 @@
 name: Community Scout (Reddit)
 
 on:
-  # schedule disabled
-  # schedule:
+  schedule:
     # Tuesday + Thursday at 10 AM ET (14:00 UTC)
-  # - cron: '0 14 * * 2,4'
+    - cron: '0 14 * * 2,4'
   workflow_dispatch:
 
 jobs:
