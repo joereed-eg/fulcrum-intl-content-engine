@@ -1,9 +1,9 @@
 name: Daily VA Assignments
 
 on:
-  schedule:
-    # 7:00 AM ET (12:00 UTC) Monday-Friday
-    - cron: '0 12 * * 1-5'
+  # schedule disabled -- too noisy
+  # schedule:
+  #   - cron: '0 12 * * 1-5'
   workflow_dispatch:
 
 jobs:
