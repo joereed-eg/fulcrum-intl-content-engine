@@ -1,8 +1,9 @@
 name: Weekly Impact & Suggestions
 
 on:
-  schedule:
-    - cron: '0 7 * * 0'  # Sunday 7am UTC
+  # schedule disabled
+  # schedule:
+  # - cron: '0 7 * * 0'  # Sunday 7am UTC
   workflow_dispatch:
 
 jobs:
