@@ -39,9 +39,7 @@ async function runQcCheck(job, article) {
       }
       return '';
     })
-    .join('
-
-');
+    .join('\n\n');
 
   // Pre-count metrics for QC
   const allPlainText = article.body.filter(b => b._type === 'block').map(b => (b.children || []).map(c => c.text || '').join('')).join(' ');
