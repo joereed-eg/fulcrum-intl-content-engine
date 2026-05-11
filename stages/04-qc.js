@@ -44,7 +44,7 @@ async function runQcCheck(job, article) {
   // Pre-count metrics for QC
   const allPlainText = article.body.filter(b => b._type === 'block').map(b => (b.children || []).map(c => c.text || '').join('')).join(' ');
   const wordCount = allPlainText.split(/\s+/).filter(w => w).length;
-  const kwRegex = new RegExp(job.primaryKeyword.replace(/[.*+?^${}()|[\]\]/g, '\$&'), 'gi');
+  const kwRegex = new RegExp(job.primaryKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
   const keywordCount = (allPlainText.match(kwRegex) || []).length;
   const allLinks = article.body.flatMap(b => (b.markDefs || []).filter(m => m._type === 'link').map(m => m.href));
   const internalLinks = allLinks.filter(l => l.includes('fulcruminternational.org'));
